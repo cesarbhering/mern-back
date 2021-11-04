@@ -26,8 +26,21 @@ const deleteActivity = async (id) =>
       .then((result) => result)
   );
 
+const updateActivity = async (id, name, description, status) =>
+  connection().then((db) =>
+    db
+      .collection("activities")
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: { name, description, status } },
+        { returnOriginal: false }
+      )
+      .then((result) => result.value)
+  );
+
 module.exports = {
   listAllActivities,
   createNewActivity,
-  deleteActivity
+  deleteActivity,
+  updateActivity,
 };

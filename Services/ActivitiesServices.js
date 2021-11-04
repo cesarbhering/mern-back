@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewActivity, listAllActivities, deleteActivity } = require("../Models/ActivitiesModel");
+const { createNewActivity, listAllActivities, deleteActivity, updateActivity } = require("../Models/ActivitiesModel");
 
 const router = express.Router();
 
@@ -11,6 +11,21 @@ router.post("/", validateNewActivity, async (req, res) => {
     const newActivity = await createNewActivity(name, description, status);
     res.status(201).json({
       newActivity,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error,
+    });
+  }
+});
+
+router.put("/", async (req, res) => {
+  const { _id, name, description, status } = req.body;
+  console.log(req.body);
+  try {
+    const updatedActivity = await updateActivity(_id, name, description, status);
+    res.status(201).json({
+      updatedActivity,
     });
   } catch (error) {
     res.status(500).json({
