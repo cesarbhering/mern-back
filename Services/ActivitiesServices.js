@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewActivity, listAllActivities } = require("../Models/ActivitiesModel");
+const { createNewActivity, listAllActivities, deleteActivity } = require("../Models/ActivitiesModel");
 
 const router = express.Router();
 
@@ -31,5 +31,22 @@ router.get("/", async (req, res) => {
     });
   }
 })
+
+router.delete("/", async (req, res) => { 
+  try {
+    console.log("cheguei aqui no delete")
+    console.log(req.body.id)
+    const deletedActivity = await deleteActivity(req.body.id);
+    res.status(200).json(
+      deletedActivity
+    );
+  }
+  catch (error) {
+    res.status(500).json({
+      error,
+    });
+  }
+})
+
 
 module.exports = router;
